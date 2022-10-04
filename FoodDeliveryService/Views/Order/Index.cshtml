@@ -1,0 +1,69 @@
+﻿@using FoodDeliveryService.Models;
+
+@model OrderViewModel
+
+@{
+    ViewData["Title"] = "OrderIndex";
+    //Layout = null;
+}
+
+<h2>Checkout</h2>
+<form asp-controller="Order" asp-action="Index">
+    <table>
+        <tr>
+            <td colspan="2" valign="middle">
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+
+                <div class="contentHead">
+                    Please fill out the following:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="120">
+                Name:
+            </td>
+            <td class="failureNotification">
+                <input class="form-control" asp-for="Name" size="40" />
+                <span asp-validation-for="Name"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Address:
+            </td>
+            <td class="failureNotification">
+                @* @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })*@
+                <input class="form-control" asp-for="Address" size="40" />
+                <span asp-validation-for="Address"></span>
+            </td>
+        </tr>
+        @*
+        <tr>
+            <td>
+                E-mail cím:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="Email" size="40" />
+                <span asp-validation-for="Email"></span>
+            </td>
+        </tr>
+        *@
+        <tr>
+            <td>
+                Telephone number:
+            </td>
+            <td class="failureNotification">
+                <input class="form-control" asp-for="TelephoneNr" size="40" />
+                <span asp-validation-for="TelephoneNr"></span>
+            </td>
+        </tr>
+        @*<tr><td><input type="hidden" name="cart" value="session" /></td></tr>*@
+        <tr>
+            <td colspan="2" align="right">
+                <input class="btn btn-primary" type="submit" value="Checkout" />
+            </td>
+        </tr>
+    </table>
+</form>
+

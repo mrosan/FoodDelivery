@@ -1,0 +1,68 @@
+﻿<Window x:Class="FoodDeliveryAdmin.View.ProductEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=mscorlib" 
+        xmlns:viewModel="clr-namespace:FoodDeliveryAdmin.ViewModel"
+        Title="Food Delivery Manager - Add new products" Height="600" Width="520" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <x:Array Type="system:String" x:Key="categoryNameArray">
+            <system:String>Menu</system:String>
+            <system:String>Main Dish</system:String>
+            <system:String>Drink</system:String>
+            <system:String>Soup</system:String>
+            <system:String>Pizza</system:String>
+            <system:String>Hamburger</system:String>
+            <system:String>Dessert</system:String>
+        </x:Array>
+        <viewModel:CategoryNameConverter x:Key="CategoryNameConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Button Content="Refresh list" HorizontalAlignment="Left" Margin="6,5,0,5" Command="{Binding RefreshProductsCommand}" Width="100" />
+        </Grid>
+        <DataGrid Name="productGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Products}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Product's name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Product's price" Binding="{Binding Price}" />
+                <DataGridTextColumn Header="Spicy" Binding="{Binding IsSpicy}" />
+                <DataGridTextColumn Header="Vegan" Binding="{Binding IsVegan}" />
+                <DataGridTextColumn Header="Category" Binding="{Binding CategoryId, Converter={StaticResource CategoryNameConverter}, ConverterParameter={StaticResource categoryNameArray}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+                <TextBlock Text="Name:" Margin="5" />
+                <TextBox Width="280" Text="{Binding EditedProduct.Name}" Margin="5"/>
+            </StackPanel>
+            <!-- <Button Content="Delete selected product" Margin="0,5,6,5" Command="{Binding DeleteProductCommand}" HorizontalAlignment="Right" Width="150" /> -->
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <TextBlock Text="Price:" Margin="5" />
+            <TextBox Width="60" Text="{Binding EditedProduct.Price}" Margin="5"/>
+            <TextBlock Text="Spicy:" Margin="5" />
+            <CheckBox IsChecked="{Binding EditedProduct.IsSpicy}" Margin="5"/>
+            <TextBlock Text="Vegan:" Margin="5" />
+            <CheckBox IsChecked="{Binding EditedProduct.IsVegan}" Margin="5"/>
+            <TextBlock Text="Category:" Margin="5" />
+            <ComboBox Width="100" 
+                    SelectedItem="{Binding EditedProduct.CategoryId, 
+                    Converter={StaticResource CategoryNameConverter}, ConverterParameter={StaticResource categoryNameArray}}" 
+                    ItemsSource="{StaticResource categoryNameArray}" Margin="5"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <TextBlock Text="Description:" Margin="5" />
+            <TextBox Width="250" Text="{Binding EditedProduct.Description}" Margin="5"/>
+            <Button Content="Add new" Margin="6,5,0,5" IsEnabled="{Binding IsPListLoaded}" 
+                    Command="{Binding CreateProductCommand}" Width="80" />
+            <Button Content="Close" Margin="5,5,6,5" Command="{Binding CloseEditorCommand}" Width="80" />
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -1,0 +1,68 @@
+﻿<Window x:Class="FoodDeliveryAdmin.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FoodDeliveryAdmin"
+        mc:Ignorable="d"
+        Title="Food Delivery Service - Manage orders and products" Height="450" Width="1200" MinHeight="450" MinWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+
+        <Menu Name="_Menu" Grid.Row="0">
+            <MenuItem Header="Menu">
+                <MenuItem Header="Load" Command="{Binding LoadCommand}"/>
+                <MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding IsLoaded}"/>
+                <Separator />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
+            <TextBlock Text="Selected order's details:" Margin="5" />
+        </StackPanel>
+
+        <DataGrid Name="orderGrid" Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Orders}" SelectedIndex="{Binding SelectedIndex}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Submission date" Binding="{Binding DateSubmitted}" />
+                <DataGridTextColumn Header="Completed" Binding="{Binding Completed}" />
+                <DataGridTextColumn Header="Complettion Date" Binding="{Binding DateCompleted}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="Telephone number" Binding="{Binding TelephoneNr}" />
+                <DataGridTextColumn Header="Sumtotal" Binding="{Binding Sum}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Name="productGrid" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding SelectedProducts}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                <DataGridTextColumn Header="Product" Binding="{Binding Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Apply these filters:" Command="{Binding FilterOrdersCommand}" Margin="6,5,0,5" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding IsLoaded}" />
+            <TextBlock Text="Filter by name:" Margin="5" />
+            <TextBox Width="100" Text="{Binding NameFilter}" Margin="5"/>
+            <TextBlock Text="Filter by address:" Margin="5" />
+            <TextBox Width="100" Text="{Binding AddressFilter}" Margin="5"/>
+            <TextBlock Text="Show completed orders:" Margin="5" />
+            <CheckBox IsChecked="{Binding CompletedFilter}" Margin="5"/>
+            <TextBlock Text="Show not completed orders:" Margin="5" />
+            <CheckBox IsChecked="{Binding NotCompletedFilter}" Margin="5"/>
+        </StackPanel>
+
+        <Grid Grid.Row="3" Grid.ColumnSpan="2">
+            <Button Content="Product Manager" Margin="6,5,0,5" HorizontalAlignment="Left" Command="{Binding ManageProductsCommand}" IsEnabled="{Binding IsLoaded}" Width="925"/>
+            <Button Content="Complete selected order" Margin="6,5,0,5" Command="{Binding UpdateOrderCommand}" CommandParameter="{Binding SelectedOrder}" Width="245" HorizontalAlignment="Right" IsEnabled="{Binding IsLoaded}" />
+        </Grid>
+    </Grid>
+</Window>

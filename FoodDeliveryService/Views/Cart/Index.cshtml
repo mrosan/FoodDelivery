@@ -1,0 +1,52 @@
+﻿@model CartIndexViewModel
+<h2>Your cart</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Quantity</th>
+            <th>Item</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Subtotal</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cItem in Model.Cart.getItems)
+        {
+            <tr>
+                <td class="text-center">@cItem.Quantity</td>
+                <td class="text-left">@cItem.Item.Name</td>
+                <td class="text-right">@cItem.Item.Price.ToString("c")</td>
+                <td class="text-right">
+                    @((cItem.Quantity * cItem.Item.Price).ToString("c"))
+                </td>
+                <td>
+                    <form asp-action="RemoveFromCart" method="post">
+                        <input type="hidden" name="ProductID" value="@cItem.Item.ProductID" />
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Remove one
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">
+                @Model.Cart.CartValue().ToString("c")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<div class="text-right">
+    <p>Note: the total value cannot exceed 20000Ft!</p>
+</div>
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Order">Checkout</a>
+    <a class="btn btn-primary" asp-action="ResetCart" asp-controller="Cart" asp-route-orderFinished="false">Empty the whole cart</a>
+</div>

@@ -1,0 +1,95 @@
+﻿<!-- model IEnumerable<FoodDeliveryService.Models.Product> -->
+@model FoodDeliveryService.Models.ProductCategoryViewModel
+
+@{
+    ViewData["Title"] = "Index";<!-- ViewData and its fields are accessible from the controller -->
+}
+
+<h2>You're now browsing our selection by @ViewBag.SelectedCategoryName.</h2>
+
+<!-- this is the form that contains the input field and submit button for searching by name -->
+<form asp-controller="Products" asp-action="List" asp-route-selectedCat="@ViewBag.SelectedCategory" asp-route-selectedCatName="@ViewBag.SelectedCategoryName">
+    <p>
+        Search within this category: <input type="text" name="SearchString">
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+@*
+    <!-- this is the form that contains the input field and submit button for filtering by category -->
+    <form asp-controller="Products" asp-action="List">
+        <p>
+            <select asp-for="ProductCategory" asp-items="Model.catNames">
+                <option value="">All</option>
+            </select>
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
+*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.products[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.products[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.products[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.products[0].IsVegan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.products[0].IsSpicy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.products)
+        {
+            <tr>
+                <td style="text-align: left">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsVegan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSpicy)
+                </td>
+                <td>
+                    <form id="@item.ProductID" asp-action="AddToCart" asp-controller="Cart" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductID" />
+                        <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                        <span class="card-text p-1">
+                            <button type="submit"
+                                    class="btn btn-success btn-sm pull-right" style="float:right">
+                                Add To Cart
+                            </button>
+                        </span>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var pages = ViewBag.PageNumber;
+}
+
+@for (var i = 0; i < pages; i++)
+{
+    var currPage = i + 1;
+    <a class="btn btn-default" asp-action="List" asp-route-selectedCat="@ViewBag.SelectedCategory" asp-route-selectedCatName="@ViewBag.SelectedCategoryName" asp-route-pageNr="@i">Page @currPage</a>
+}

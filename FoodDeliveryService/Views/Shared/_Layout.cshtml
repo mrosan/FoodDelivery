@@ -1,0 +1,61 @@
+﻿@using FoodDeliveryService.Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Welcome to my Food Delicery Service!</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+        asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+        asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" /> *@
+        @*<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+            </environment>
+
+        </head>
+<body>
+    <div class="navbar navbar-inverse" role="navigation">
+        @*<a class="navbar-brand" href="#">Food Delivery Service</a> *@
+        @* @Html.Action("Summary", "Cart") *@
+
+        <a class="navbar-brand" asp-controller="Cart" asp-action="Index" asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()"> Go to cart </a>
+
+    </div>
+
+        @* Welcome! *@
+
+        <div class="row panel">
+            <div id="categories" class="col-lg-3">
+                @* @Html.ActionLink("All categories", "Index", "Product", null, new { @class = "btn btn-block btn-default btn-lg" }) *@
+
+                <div class="buildingItemHead">
+                    <h3><a asp-controller="Products" asp-action="Index">All categories</a></h3>
+                </div>
+
+                @foreach (Category cat in ViewBag.Cats)
+            {
+                @*<a asp-controller="Products" asp-action="List" asp-route-productCat="@cat.Id">@cat.Name</a>*@
+
+                @Html.RouteLink(cat.Name,
+                                 new { Controller = "Products", action = "List", selectedCat = cat.Id, selectedCatName = cat.Name },
+                                 new
+                                 {
+                                     @class = "btn btn-block btn-default btn-lg"
+                                 })
+        }
+
+            </div>
+            <div class="col-lg-7">
+                @RenderBody()
+            </div>
+        </div>
+        @*
+        @RenderSection("Scripts", required: false)
+        *@
+</body>
+</html>

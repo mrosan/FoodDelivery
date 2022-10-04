@@ -1,0 +1,68 @@
+﻿@using FoodDeliveryService.Models;
+
+@model IList<Product>
+@* body: *@
+
+@if (Model == null || !Model.Any())
+{
+    <div class="contentText">We ran out of food! Please come back later!</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].CategoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].IsVegan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].IsSpicy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].AmountSold)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsVegan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsSpicy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmountSold)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

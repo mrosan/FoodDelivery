@@ -1,0 +1,26 @@
+﻿<Window x:Class="FoodDeliveryAdmin.View.OrderDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FoodDeliveryAdmin.View"
+        mc:Ignorable="d"
+        Title="Food Delivery Service - Oder details" Height="450" Width="450" MinHeight="450" MinWidth="450">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <DataGrid Name="productGrid" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding SelectedProducts}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Product" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <Button Content="OK" Margin="5,5,6,5" Command="{Binding CloseProductsCommand}" Width="100" />
+        </StackPanel>
+    </Grid>
+</Window>
